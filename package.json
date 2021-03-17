@@ -1,0 +1,15 @@
+{
+  "name": "apilib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Code.js",
+  "scripts": {
+    "dev": "clasp push --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Vandehey",
+  "license": "ISC",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.16"
+  }
+}
