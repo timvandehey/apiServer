@@ -1,20 +1,16 @@
 function DB (dbSchema) {
     let records // = store.records
-    timer.start(101)
     const ss = SpreadsheetApp.openById(dbSchema.ssid)
-    timer.end(101)
     const sheet = ss.getSheetByName(dbSchema.dataSheet)
     const archive = ss.getSheetByName(dbSchema.deletedSheet)
     const fieldsSheet = ss.getSheetByName(dbSchema.fieldsSheet)
     const values = sheet.getDataRange().getValues()
-    timer.start(102)
     const [fieldValues, typeValues, ...dataValues] = values
     // const fields = JSON.parse(fieldsJSON[0])
     // const values = fieldsSheet.getDataRange().getValues()
     // const [keys, , ...rows] = values
     const fields = fieldValues.map( (v,i) => [v,typeValues[i]])
     const columns = fields.length
-    timer.end(102)
     const toSpreadsheetValueFns = {
         string: st => st
         , text: text => text
@@ -40,7 +36,6 @@ function DB (dbSchema) {
     }
 
     // getRecords()
-        timer.start(200)
     records = dataValues.reduce((objArray, row) => {
     const rowObj = fields.reduce((record, [name, type ], i) => {
         record[name] = toObjectValue(row[i], type)
@@ -49,7 +44,6 @@ function DB (dbSchema) {
     objArray.push(rowObj)
     return objArray
 }, [])
-        timer.end(200)
 
     // function getRecords () {
     //     const values = sheet.getDataRange().getValues()
@@ -80,11 +74,8 @@ function DB (dbSchema) {
     }
 
     function recordToValuesArray (record) {
-      log(record,fields)
         return [fields.map(([ field, type ]) => {
-          log(`${record[field]} : ${field}`)
           const v = toSpreadsheetValue(record[field], type)
-          log(`${record[field]} : ${field} : ${v}`)
           return v
         }
       )]
@@ -119,9 +110,9 @@ function DB (dbSchema) {
         return updatedRecord
     }
 
-    function deleteRecord (key) {
-        const { record, row, index } = findRecord(key)
-        log({ key: record.key, row, index })
+    function deleteRecord (record) {
+        const {key} = record
+        const { row, index } = findRecord(key)
         const after = records.slice(0, index)
         const before = records.slice(index + 1)
         archiveRecord(row)

@@ -1,31 +1,8 @@
-function a () {
-  timer.start()
-  timer.start(1)
-  timer.end(1)
-  timer.start(3)
-  const db = DB({
-    ssid: '1YzNtxGkQuraD_ByQH2gBAMnLthHfA4NVBHLPo2ntuc0'
-    , dataSheet: "dbsData"
-    , deletedSheet: "dbsDeleted"
-    , fieldsSheet: "dbsFields"
-  })
-  timer.end(3)
-  timer.start(4)
-  log(db.findRecord(1004))
-  // log(db.findRecord(100499))
-  db.records.push(56)
-  timer.end(4)
-  timer.end()
-  return { db }
-}
-
 function processUsers () {
   const ssData = metaSchemas.users
   const db = DB(ssData)
   const users = {}
   db.records.forEach(r => users[r.email] = r)
-  log(users)
-  log(getMetaData().users)
   return users
 }
 
@@ -33,11 +10,6 @@ function setProperties(key,object) {
   PropertiesService.getScriptProperties().setProperty(key, JSON.stringify(object))
 }
 
-
-function t() {
-  log(getProperties('config'))
-  log(getMetaData().config)
-}
 function getProperties(key) {
   const val = PropertiesService.getScriptProperties().getProperty(key)
   const obj = JSON.parse(val)
@@ -86,7 +58,6 @@ function initializeMetaData () {
       }
     }
   }
-  timer.start('meta')
   let { schemas } = metaData
   try {
     const { schemaDefs, users, config } = schemas
@@ -106,8 +77,6 @@ function initializeMetaData () {
     users.schema = db.schema
     metaData.users = {}
     db.records.forEach(r => metaData.users[r.email] = r)
-    timer.end('meta')
-    Logger.log(JSON.stringify(metaData))
     PropertiesService.getScriptProperties().setProperty('metaData', JSON.stringify(metaData))
   }
   catch (e) {
@@ -118,12 +87,12 @@ function initializeMetaData () {
 
 function checkReadAccess () {
   const {user} = store
-  if (!user.read) throw notAuthorized(`${user.email} not authorized to read ${schema.name}`)
+  if (!user.read) throw notAuthorized(`${user.email} not authorized to read database ${store.schema.name}`)
 }
 
 function checkWriteAccess () {
   const {user} = store
-    if (!user.write) throw notAuthorized(`${user.email} not authorized to write ${schema.name}`)
+    if (!user.write) throw notAuthorized(`${user.email} not authorized to write to database ${store.schema.name}`)
 
 }
 

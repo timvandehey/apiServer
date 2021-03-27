@@ -1,0 +1,12 @@
+{
+    "scriptId": "1dx-Mb6lTOHOYA2ajeOxieqhyQZWkfXK6pxuBwSWOKuqStoBd_gXhBukY",
+    "filePushOrder": [
+        "utils.js",
+        "Code.js",
+        "post.js",
+        "auth.js",
+        "firebase.js",
+        "database.js",
+        "store.js"
+    ]
+}

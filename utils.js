@@ -107,10 +107,6 @@ function zeroFill (numberDigits, n) {
 
 function zeroFill2 (n) { return zeroFill(2, n) }
 
-// function apiFnDoesntExist (fn) {
-//     throw invalidFunction(`Api function [ ${fn} ] does not exist`)
-// }
-
 function apiError (type='unknown', msg="Unknown Error!") {
     const err = new Error(msg)
     const object =  {

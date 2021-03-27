@@ -1,14 +1,11 @@
 function login () {
   const {user} =store
-  log(user)
   return user
 }
 
 function validateToken(idToken) {
   try {
     const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`
-    // const user = JSON.parse(UrlFetchApp.fetch(url))
-    // return user
   } 
   catch (e) {
     throw credentialsError(e + idToken)
@@ -27,7 +24,6 @@ function getSchema(dbName) {
   if (!schema) throw dbError(`invalid Database Name - ${dbName}`)
   if (schema.needPin && !user.hasPin) throw Error(`Need PIN for ${dbName}`)
   const { owners, editors, viewers } = schema
-  log([...owners, ...editors, viewers], user.email)
   user.read = viewers.includes('all') || [...owners, ...editors, ...viewers].includes(user.email)
   user.write = [...owners, ...editors].includes(user.email)
   return schema
@@ -38,7 +34,6 @@ function getSchema(dbName) {
 function googleJWT () {
   const jwt = `eyJhbGciOiJSUzI1NiIsImtpZCI6ImZkYjQwZTJmOTM1M2M1OGFkZDY0OGI2MzYzNGU1YmJmNjNlNGY1MDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiODU2NzE5MzgwMjctOXRqcWxnbTA3cWVqbHRyMXRwcDRvMDE2ZTEydDlubjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4NTY3MTkzODAyNy05dGpxbGdtMDdxZWpsdHIxdHBwNG8wMTZlMTJ0OW5uOC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExNzMwNzI3NzAzMzA4MjY0NjQxNSIsImVtYWlsIjoidGltLnZhbmRlaGV5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiOEpDakxpeVAzZ2s4b3RXam5nVmNYQSIsIm5hbWUiOiJUaW0gVmFuZGVoZXkiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2l5S1pNUXhDX0phOU1Ca01qSVQzcDVGWVhHY0ExUHRGTllseTRQN1E9czk2LWMiLCJnaXZlbl9uYW1lIjoiVGltIiwiZmFtaWx5X25hbWUiOiJWYW5kZWhleSIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjE0MDMzMTMxLCJleHAiOjE2MTQwMzY3MzEsImp0aSI6IjM2YWNhZTQwY2EwZGY5NTY2ODZkMjI5MzJiZjc5Y2QzMGJkNWQzZjAifQ.TRxBRFDXVCnjLZpHmnYm_DXE75E0oTrJBIq1jmdMSHExuCPyLRRCg7UI31gUrDKjcGHxPiv-T7_ofyaDhtibKN1tZO1Z0d1ZeVt1XDHG2XE8bG3pKCLSIV2gSdp5su02nyD5930QkhcuzfNYCJ9rgMhR9ZjdYEgXL1bvj7CE5qiIhYfkLM55Qdamiy6rGYf8V4LHfQMBRL1jphZwjSe2cNyr7ZzqKm_M9iaeTJ9U2JGENt4HwbXjx6n8PBcImdPcbi8EygLnIk8JUNDCS1ppEzNxqkNF3RozzeV7UykoQg6WKrYcWj1HfB0ox7dzL6YUr9OiyEsblRoZxMiVvtUx4A`
 
- log(JSON.stringify(getUserInfo(jwt),null,2))
 }
 
 function getPayload (jwt) {

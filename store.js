@@ -23,17 +23,15 @@ const metaSchemas= {
 
 let store = {
     ...getMetaData()
-    // , records: []
 }
 
-store.jwtEr = store.config.jwtEr
-const { jwtEr } = store.config
+// store.jwtEr = store.config.jwtEr
+// const { jwtEr } = store.config
 
 const timer = timerFactory()
 
 const fns = {
     fbtest: toFirebase
-    , a
     , create
     , read
     , update
@@ -45,14 +43,6 @@ const fns = {
 }
 
 const apiFunctions = new Map(Object.entries(fns))
-
-// const apiFunctionsOld = new Map([
-//     ['fbtest', toFirebase]
-//     , ['read', read]
-//     , ['initializeMetaData', initializeMetaData]
-//     , ['authorizeUser', authorizeUser]
-// ]
-// )
 
 const apis = [...apiFunctions.keys()].reduce(
     (p, c, i) => {

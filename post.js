@@ -4,7 +4,6 @@ function post (request = {}) {
     const {contents=''} = postData;
     const data = contents.length==0 ? {} : JSON.parse(contents)
     const { user={}, dbName='', fnName='echo', args=[] } = data
-    log({data})
     result = {
       error: false
       , extra: {
@@ -18,7 +17,6 @@ function post (request = {}) {
   try {
     if (!apiFunctions.has(fnName)) throw invalidFunction(fnName)
     store.user = checkUser(user)
-    log(`store.user ${JSON.stringify(store.user)}`)
     store.schema = getSchema(dbName)
     try {
     result.value = apiFunctions.get(fnName).apply(null,args)
